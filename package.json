@@ -1,0 +1,22 @@
+{
+  "name": "dex_aggregator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/stable-release/mode-base"
+  },
+  "author": "stable-release",
+  "license": "ISC",
+  "dependencies": {
+    "ethers": "^6.9.0"
+  }
+}

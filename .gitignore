@@ -15,3 +15,12 @@ docs/
 
 # Dev-Test
 dev/
+
+# Bloat
+package-lock.json
+node_modules
+
+# Frontend
+frontend/package-lock.json
+frontend/node_modules
+frontend/.eslintrc.json
