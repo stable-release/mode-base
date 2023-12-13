@@ -1,0 +1,11 @@
+# dependencies
+node_modules
+.env
+.vscode
+.idea
+package-lock.json
+
+# Environment
+.env*.local
+.env
+.dev

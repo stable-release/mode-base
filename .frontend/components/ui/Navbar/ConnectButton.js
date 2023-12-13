@@ -3,12 +3,15 @@
 import { Wallet, ethers } from "ethers";
 
 import s from "./Navbar.module.css";
-import { createContext, useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { WalletSignerContext } from "../Context/Context";
 import WalletValue from "./WalletValue";
 
-export default function ConnectButton() {
-    const [walletSigner, setWalletSigner] = useState(null);
+export default function ConnectButton({
+    reloadRouter,
+    walletSigner,
+    setWalletSigner,
+}) {
     const [connectAttempt, setConnectAttempt] = useState(false);
 
     useEffect(() => {
@@ -18,17 +21,26 @@ export default function ConnectButton() {
                 : ethers.getDefaultProvider();
 
             let signer = null;
+            let walletAddress = null;
             try {
                 signer = await provider.getSigner();
                 const accounts = await provider.listAccounts();
                 if (accounts[0]) {
-                    setWalletSigner(accounts[0].address);
+                    walletAddress = accounts[0].address;
                 }
                 let date = new Date().toJSON();
                 const signedMessage = await signer.signMessage(
                     `> ${date} > ${accounts[0].address} > ProtoPip > Make sure you are on the correct website`
                 );
-                console.log(signedMessage);
+                // console.log(signedMessage);
+
+                const signedAddress = await ethers.verifyMessage(
+                    `> ${date} > ${accounts[0].address} > ProtoPip > Make sure you are on the correct website`,
+                    signedMessage
+                );
+                // console.log(signedAddress);
+                setConnectAttempt(false);
+                setWalletSigner(walletAddress);
             } catch (error) {
                 console.error(error);
                 signer = null;
@@ -39,6 +51,10 @@ export default function ConnectButton() {
         if (connectAttempt) {
             handleConnect();
         }
+
+        return () => {
+            setConnectAttempt(false);
+        };
     }, [connectAttempt]);
 
     useEffect(() => {
