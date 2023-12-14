@@ -6,6 +6,7 @@ import s from "./Navbar.module.css";
 import { useEffect, useState } from "react";
 import { WalletSignerContext } from "../Context/Context";
 import WalletValue from "./WalletValue";
+import { connect_signer } from "../../../api/API";
 
 export default function ConnectButton({
     reloadRouter,
@@ -16,6 +17,7 @@ export default function ConnectButton({
 
     useEffect(() => {
         const handleConnect = async () => {
+            // Wallet connect attempt
             const provider = window.ethereum
                 ? new ethers.BrowserProvider(window.ethereum)
                 : ethers.getDefaultProvider();
@@ -23,22 +25,29 @@ export default function ConnectButton({
             let signer = null;
             let walletAddress = null;
             try {
+                // Signed permit attempt
                 signer = await provider.getSigner();
                 const accounts = await provider.listAccounts();
                 if (accounts[0]) {
                     walletAddress = accounts[0].address;
                 }
                 let date = new Date().toJSON();
+
+                // Create signed message
                 const signedMessage = await signer.signMessage(
                     `> ${date} > ${accounts[0].address} > ProtoPip > Make sure you are on the correct website`
                 );
-                // console.log(signedMessage);
 
-                const signedAddress = await ethers.verifyMessage(
-                    `> ${date} > ${accounts[0].address} > ProtoPip > Make sure you are on the correct website`,
-                    signedMessage
+                // Connection Attempt
+                const response = await connect_signer(
+                    {
+                        date: date,
+                        address: walletAddress,
+                    },
+                    signedMessage,
+                    walletAddress
                 );
-                // console.log(signedAddress);
+
                 setConnectAttempt(false);
                 setWalletSigner(walletAddress);
             } catch (error) {

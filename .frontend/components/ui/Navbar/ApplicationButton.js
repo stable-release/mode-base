@@ -8,7 +8,7 @@ export default function ApplicationButton({walletSigner}) {
     return (
         <WalletSignerContext.Provider value={walletSigner}>
             {walletSigner && (
-                <Link href="/Application" className={s.link}>
+                <Link href="/application" className={s.link}>
                     Application
                 </Link>
             )}
