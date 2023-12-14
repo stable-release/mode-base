@@ -1,0 +1,22 @@
+{
+    "name": "mode-backend-server",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "node api/server.js",
+        "start:dev": "nodemon api/server.js",
+        "knex": "knex",
+        "knex:production": "SET NODE_ENV=production&&npm run knex migrate:rollback",
+        "development": "SET NODE_ENV=production&&npm run start:dev"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "cors": "^2.8.5",
+        "dotenv": "^16.3.1",
+        "express": "^4.18.2",
+        "knex": "^3.1.0",
+        "nodemon": "^3.0.2"
+    }
+}
