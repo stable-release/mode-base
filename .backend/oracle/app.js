@@ -1,5 +1,7 @@
 require("dotenv").config();
 const { ethers } = require("ethers");
+const cron = require("node-cron");
+
 const PRICEORACLE_ABI = require("../abi/PriceOracle.sol/PriceOracle.json");
 const EACAGGREGATORPROXY_ABI = require("../abi/EACAggregatorProxy.sol/EACAggregatorProxy.json");
 
@@ -43,4 +45,15 @@ async function getPrice(contractAddress) {
     return answer;
 }
 
-getPrice(process.env.EAC_AGGREGATOR_PROXY_ADDRESS).then((price) => updateOracle(process.env.ORACLE_ADDRESS, process.env.WETH_ADDRESS, price));
+// getPrice(process.env.EAC_AGGREGATOR_PROXY_ADDRESS).then((price) => updateOracle(process.env.ORACLE_ADDRESS, process.env.WETH_ADDRESS, price));
+
+cron.schedule('*/30 * * * *', async () => {
+    try {
+        const price = await getPrice(process.env.EAC_AGGREGATOR_PROXY_ADDRESS);
+        const res = await updateOracle(process.env.ORACLE_ADDRESS, process.env.WETH_ADDRESS, price);
+        console.log(res);
+        console.log("Cycle completed")
+    } catch (err) {
+        console.log("error", err);
+    }
+})

@@ -112,6 +112,9 @@ async function create_signature(req, res, next) {
     });
 }
 
+/**
+ * Updates already existing signature
+ */
 async function update_signature(req, res, next) {
     const response = await client_connections_service.update(
         res.locals.signer_id,
