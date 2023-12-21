@@ -21,6 +21,7 @@ bin/
 # Bloat
 package-lock.json
 node_modules
+.vscode/
 
 # Frontend
 frontend/package-lock.json
