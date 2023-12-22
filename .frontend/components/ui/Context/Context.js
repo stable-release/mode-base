@@ -2,7 +2,30 @@
 
 import { createContext, useEffect, useState } from "react";
 
-import { Wallet, ethers } from "ethers";
+import { ethers } from "ethers";
+import {
+    configureChains,
+    WagmiConfig,
+    createConfig,
+} from "wagmi";
+import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
+import { modeTestnet } from "viem/chains";
+
+const { publicClient } = configureChains(
+    [modeTestnet],
+    [
+        jsonRpcProvider({
+            rpc: (chain) => ({
+                http: "https://sepolia.mode.network/",
+            }),
+        }),
+    ]
+);
+
+const config = createConfig({
+    autoConnect: true,
+    publicClient,
+});
 
 export const WalletSignerContext = createContext(null);
 
@@ -15,17 +38,17 @@ export default function Context({ children }) {
             : ethers.getDefaultProvider();
 
         const connectedAccounts = async () => {
-                const accounts = await provider.listAccounts();
-                if (accounts[0]) {
-                    setWalletSigner(accounts[0].address);
-                }
+            const accounts = await provider.listAccounts();
+            if (accounts[0]) {
+                setWalletSigner(accounts[0].address);
+            }
         };
 
         connectedAccounts();
     }, []);
     return (
         <WalletSignerContext.Provider value={walletSigner}>
-            {children}
+            <WagmiConfig config={config}>{children}</WagmiConfig>
         </WalletSignerContext.Provider>
     );
 }

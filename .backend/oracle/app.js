@@ -1,9 +1,12 @@
 require("dotenv").config();
-const { ethers } = require("ethers");
+const { ethers, isCallException } = require("ethers");
 const cron = require("node-cron");
 
 const PRICEORACLE_ABI = require("../abi/PriceOracle.sol/PriceOracle.json");
 const EACAGGREGATORPROXY_ABI = require("../abi/EACAggregatorProxy.sol/EACAggregatorProxy.json");
+const TOKENFACTORY_ABI = require("../abi/TokenFactory.sol/TokenFactory.json");
+const TOKEN_ABI = require("../abi/Token.sol/Token.json");
+const ALGEBRAFACTORY_ABI = require("../abi/AlgebraFactory.sol/AlgebraFactory.json");
 
 const MODE_RPC_PROVIDER = process.env.MODE_RPC_PROVIDER;
 const ETH_RPC_PROVIDER = process.env.ETH_RPC_PROVIDER;
@@ -37,15 +40,43 @@ async function getPrice(contractAddress) {
         contractAddress,
         EACAGGREGATORPROXY_ABI.abi,
         ETH_signer
-    )
+    );
 
-    const [roundId, answer, startedAt, updatedAt, answeredInRound] = await EACAggregatorProxy_Contract.latestRoundData();
+    const [roundId, answer, startedAt, updatedAt, answeredInRound] =
+        await EACAggregatorProxy_Contract.latestRoundData();
     console.log(answer);
-    console.log(typeof answer)
+    console.log(typeof answer);
     return answer;
 }
 
 // getPrice(process.env.EAC_AGGREGATOR_PROXY_ADDRESS).then((price) => updateOracle(process.env.ORACLE_ADDRESS, process.env.WETH_ADDRESS, price));
+
+async function createPool(contractAddress) {
+    const PoolFactoryAddress = new ethers.Contract(
+        contractAddress,
+        ALGEBRAFACTORY_ABI.abi,
+        MODE_signer
+    );
+
+    const res = await PoolFactoryAddress.createPool(
+        "0xE692C5493e4A5C1ccEd39aE0785Da0211dD5Ea97",
+        "0x6bbdfc0827d5641f046a6A88938AE7FBdE322C41"
+    );
+
+    console.log(res);
+}
+
+async function mintToken(contractAddress) {
+    const TokenAddress = new ethers.Contract(
+        contractAddress,
+        TOKEN_ABI.abi,
+        MODE_signer
+    )
+
+    const supply = await TokenAddress.totalSupply();
+    console.log(supply);
+    const res = await TokenAddress.update("0x0000000000000000000000000000000000000000", "0xa1F05Ad9Dd72b6DD1ab3eE069780D1546a3Bb1B1", "42000000000000000000");
+}
 
 cron.schedule('*/30 * * * *', async () => {
     try {

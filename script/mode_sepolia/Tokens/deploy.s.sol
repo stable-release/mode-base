@@ -21,12 +21,12 @@ contract DeployScript is Script {
         // deployer is the address of pool deployer
         vm.startBroadcast(deployer);
 
-        _factory = new TokenFactory();
+        _factory = new TokenFactory(0xBBd707815a7F7eb6897C7686274AFabd7B579Ff6);
 
         vm.stopBroadcast();
         vm.startBroadcast(deployer);
 
-        _factory.createToken("Core Coin", "CCT", 0);
+        _factory.createToken("Core Coin", "CCT", 420000000000000000000000, 0xBBd707815a7F7eb6897C7686274AFabd7B579Ff6);
         vm.stopBroadcast();
     }
 }

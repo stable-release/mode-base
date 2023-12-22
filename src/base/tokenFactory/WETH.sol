@@ -2,9 +2,8 @@
 pragma solidity ^0.8.20;
 
 import {Token} from "./Token.sol";
-import {SFS} from "../Mode/ModeSFS.sol";
 
-contract WETH is Token, SFS {
+contract WETH is Token {
     bool private lock = true;
     address SFS_Recipient;
 
@@ -12,8 +11,13 @@ contract WETH is Token, SFS {
         address SFS_Register_Contract,
         address recipient
     )
-        Token("Wrapped Ethereum", "WETH", 0, address(msg.sender))
-        SFS(SFS_Register_Contract, recipient)
+        Token(
+            "Wrapped Ethereum",
+            "WETH",
+            0,
+            address(msg.sender),
+            SFS_Register_Contract
+        )
     {
         SFS_Recipient = recipient;
     }
