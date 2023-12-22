@@ -40,7 +40,7 @@ export default function index() {
                     href="/launchpad/trade"
                     className="border border-white rounded"
                 >
-                    Trade
+                    trade
                 </Link>
             </div>
             <div className="text-xl">
