@@ -6,7 +6,7 @@ export default function WalletValue() {
     
     return (
         <>
-            {walletSigner ? walletSigner : "Connect"}
+            {walletSigner ? `${walletSigner.slice(0,8) + "..." + walletSigner.slice(-4)}` : "Connect"}
         </>
     )
 }

@@ -3,8 +3,9 @@ pragma solidity ^0.8.20;
 
 import {SafeERC20} from "@openzeppelin-contracts/contracts/token/ERC20/utils/SafeERC20.sol";
 import {ERC20} from "@openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
+import {SFS} from "../Mode/ModeSFS.sol";
 
-contract Token is ERC20 {
+contract Token is ERC20, SFS {
     using SafeERC20 for ERC20;
 
     address public _owner;
@@ -13,9 +14,10 @@ contract Token is ERC20 {
         string memory name,
         string memory ticker,
         uint256 _totalSupply,
-        address owner
-    ) ERC20(name, ticker) {
-        _update(address(this), owner, _totalSupply);
+        address owner,
+        address sfs_registrar
+    ) ERC20(name, ticker) SFS(sfs_registrar, owner) {
+        _update(address(0), owner, _totalSupply);
         _owner = owner;
     }
 
