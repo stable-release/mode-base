@@ -1,6 +1,5 @@
 require("dotenv").config();
 const { ethers } = require("ethers");
-const cron = require("node-cron");
 
 const TOKEN_FACTORY_ABI = require("../abi/TokenFactory.json");
 

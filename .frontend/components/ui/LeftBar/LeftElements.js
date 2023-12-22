@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function NavElements() {
+export default function LeftElements() {
     const router = useRouter();
     const [walletSigner, setWalletSigner] = useState(null);
     return (
@@ -15,7 +15,7 @@ export default function NavElements() {
                 </nav>
             </div>
             <div className="flex justify-end flex-1 space-x-8">
-                <ConnectButton reloadRouter={router} walletSigner={walletSigner} setWalletSigner={setWalletSigner}/>
+                
             </div>
         </div>
     );

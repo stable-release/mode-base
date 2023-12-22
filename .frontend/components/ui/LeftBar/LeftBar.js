@@ -1,3 +1,5 @@
+import LeftElements from "./LeftElements";
+
 export default async function LeftBar() {
     return (
         <div className={s.root}>
