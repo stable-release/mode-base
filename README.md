@@ -10,7 +10,11 @@
 
 ## Documentation
 
-Project is set up as a monorepo. Dev and build commands should be run within corresponding paths.
+Project is set up as a monorepo.
+
+Dev and build commands should be run within corresponding paths.
+
+
 ie. `npm run build` in `./.frontend/`
 
 
@@ -47,8 +51,11 @@ Token Factory | `0xf438098deb442d0b954e06dc31d1f19148d2fc31`
 .frontend
 ```
 Fill in `.env`
+
 Start: `npm run dev` 
+
 Build: `npm i -y; npm run build`
+
 Deploy: `npm run start`
 
 ## API Deploy
@@ -58,8 +65,11 @@ Deploy: `npm run start`
 ```
 
 Fill in `.env`
+
 *Note: Database should be PostgreSQL:url
+
 Start: `npm run dev`
+
 Deploy: `npm run start`
 
 ## Price Oracle Scheduler Deploy
@@ -69,6 +79,7 @@ Deploy: `npm run start`
 ```
 
 Fill in `.env`
+
 Start: `node ./oracle/app.js`
 
 ## Smart Contracts Deploy
@@ -78,6 +89,9 @@ script
 ```
 
 Deploy scripts are in `./script`.
+
 Replace `${MNEMONIC}` with deployer mnemonic.
+
 Run in WSL on Windows or in Terminal:
+
 `RUST_BACKTRACE=1 forge script script/${PATH_TO_SCRIPT}.s.sol:DeployScript  --rpc-url modesepo --broadcast --verify -vvvv`
