@@ -7,9 +7,9 @@ import ConnectButton from "./ConnectButton";
 import s from "./Navbar.module.css";
 
 import { useRouter } from "next/navigation";
-import { WalletSignerContext } from "../Context/Context";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import ApplicationButton from "./ApplicationButton";
+import LaunchpadButton from "./LaunchpadButton";
 
 export default function NavElements() {
     const router = useRouter();
@@ -19,8 +19,9 @@ export default function NavElements() {
             <div className="flex items-center flex-1">
                 <nav className="hidden ml-6 space-x-2 lg:block">
                     <Link href="/" className={s.link}>
-                        ProtoPip
+                        Pipo Labs
                     </Link>
+                    <LaunchpadButton walletSigner={walletSigner} />
                     <ApplicationButton walletSigner={walletSigner}/>
                 </nav>
             </div>
